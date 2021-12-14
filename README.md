@@ -5,9 +5,17 @@ AWS Sec Monitor keeps notifying you on IAM changes (User, MFA, Access Keys).
 
 ## Install
 * First edit `deploy.sh` and update with your environment settings.
-* Execute the script `./deploy`
+* Execute the script `./deploy.sh`
+
+## Configure
+* Upload a file containing the accounts id to be monitored in the specified S3 bucket
+* Create an IAM role in each account to be monitored with the following [policy](resources/iam-switch-role-policy.json).
 
 ## Report Sample
+Report Format:
+
+Account Id | User Name | MFA Enabled | Access Key Id | AK Created Date | AK Last Used Date
+
 ```
 + 123456789012	user1	false
 - 123456789012	user2	false	AKIAYGACINKTNX32JRYS	2021-12-14T20:57:31.000Z
