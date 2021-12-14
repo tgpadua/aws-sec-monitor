@@ -1,0 +1,16 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AwsSecMonitorPolicy",
+            "Effect": "Allow",
+            "Action": [
+                "iam:ListUsers",
+                "iam:ListMFADevices",
+                "iam:ListAccessKeys",
+                "iam:GetAccessKeyLastUsed"                
+            ],
+            "Resource": "*"
+        }
+    ]
+}
