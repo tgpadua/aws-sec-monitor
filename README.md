@@ -6,7 +6,7 @@ AWS Sec Monitor notifies IAM changes on Users, MFA and Access Keys.
 ## Use Agreement
 Using this software `I Agree` I'm solely responsible for any security issue caused due any misconfiguration and/or bugs.
 
-# Requirements
+## Requirements
 * [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 * [AWS CDK v2](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_install)
 
