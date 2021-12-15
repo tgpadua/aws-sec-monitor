@@ -3,5 +3,5 @@ node_modules
 # CDK asset staging directory
 .cdk.staging
 cdk.out
-deploy-tgpadua.sh
+setEnv.sh
 .DS_Store
