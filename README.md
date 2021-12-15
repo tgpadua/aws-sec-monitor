@@ -6,6 +6,10 @@ AWS Sec Monitor keeps notifying you on IAM changes (User, MFA, Access Keys).
 ## Use Agreement
 Using this software `I Agree` I'm solely responsible for any security issue caused due any misconfiguration and/or bugs.
 
+# Requirements
+* [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+* [AWS CDK v2](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_install)
+
 ## Install
 * Run `npm install` download dependencies
 * Edit `deploy.sh` and update with your environment settings.
