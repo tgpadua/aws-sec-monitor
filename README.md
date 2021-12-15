@@ -7,7 +7,8 @@ AWS Sec Monitor keeps notifying you on IAM changes (User, MFA, Access Keys).
 Using this software `I Agree` I'm solely responsible for any security issue caused due any misconfiguration and/or bugs.
 
 ## Install
-* First edit `deploy.sh` and update with your environment settings.
+* Run `npm install` download dependencies
+* Edit `deploy.sh` and update with your environment settings.
 * Execute the script `./deploy.sh`
 
 ## Configure
