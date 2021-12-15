@@ -12,8 +12,8 @@ Using this software `I Agree` I'm solely responsible for any security issue caus
 
 ## Install
 * Run `npm install` in the project root folder
-* Edit `deploy.sh` and update with your environment settings
 * Access the lambda project `cd resources/lambda` and run `npm install`
+* Edit `deploy.sh` and update with your environment settings
 * Execute the script `./deploy.sh`
 
 ## Configure
