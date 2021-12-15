@@ -1,5 +1,5 @@
 # Welcome to AWS Sec Monitor
-AWS Sec Monitor keeps notifying you on IAM changes (User, MFA, Access Keys).
+AWS Sec Monitor notifies IAM changes on Users, MFA and Access Keys.
 
 ![Solution Blueprint](resources/blueprint.png)
 
@@ -12,7 +12,7 @@ Using this software `I Agree` I'm solely responsible for any security issue caus
 
 ## Install
 * Run `npm install` download dependencies
-* Edit `deploy.sh` and update with your environment settings.
+* Edit `deploy.sh` and update with your environment settings
 * Execute the script `./deploy.sh`
 
 ## Configure
