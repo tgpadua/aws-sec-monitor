@@ -11,8 +11,9 @@ Using this software `I Agree` I'm solely responsible for any security issue caus
 * [AWS CDK v2](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_install)
 
 ## Install
-* Run `npm install` download dependencies
+* Run `npm install` in the project root folder
 * Edit `deploy.sh` and update with your environment settings
+* Access the lambda project `cd resources/lambda` and run `npm install`
 * Execute the script `./deploy.sh`
 
 ## Configure
