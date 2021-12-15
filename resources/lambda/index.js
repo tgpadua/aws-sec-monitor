@@ -14,7 +14,12 @@ exports.handler = async (event) => {
 
     let newReport = '';
     for(let account of accounts.trim().split('\n')) {
-      newReport += await report.generate(account, ROLE_NAME);
+      try {
+        newReport += await report.generate(account, ROLE_NAME);
+      } catch (error) {
+        // protect routine to complete even if some account fails to switch role
+        console.log(error.stack);
+      }
     }
 
     let suffix = Date.now();
