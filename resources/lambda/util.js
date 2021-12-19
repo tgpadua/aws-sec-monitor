@@ -12,9 +12,25 @@ exports.publishNotification = async function(topicArn, subject, message) {
   }).promise();
 }
 
+/**
+* Convert report from string and drops AK lastUsedDate
+*/
+exports.convertReportToArrayAndFilter = function (report) {
+    let result = new Array();
+    for(let line of report.split('\n').sort()) {
+      if(line.split('\t').length < 6) { // if there is no AK lastUsedDate just the line
+        result.push(line);
+      } else {  // otherwise drops AK lastUsedDate
+        result.push(line.substring(0,line.length-25));
+      }
+    }
+
+    return result;
+}
+
 exports.diff = function(content1, content2) {
   let result = '';
-  let diff = diffLinesRaw(content1.split('\n'), content2.split('\n'));
+  let diff = diffLinesRaw(content1, content2);
 
   for(let line of diff) {
     if(line[0] == 1) {

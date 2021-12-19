@@ -1,0 +1,5 @@
+{
+  "cronExpression": "cron(0 * * * ? *)",
+  "roleName": "AWSSecMonitorRole",
+  "email": "your@email.com"
+}

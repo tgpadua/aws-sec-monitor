@@ -8,10 +8,14 @@ const MAX_ITEMS = 500;
 * Report Format: Account Id | User Name | MFA Enabled | Access Key Id | AK Created Date | AK Last Used Date
 */
 exports.generate = async function(account, roleName) {
-  let credentials = await switchRole(account, roleName);
-  let report = await query(account, credentials);
+  try {
+    let credentials = await switchRole(account, roleName);
+    let report = await query(account, credentials);
 
-  return report;
+    return report;
+  } catch (error) {
+    console.log(error.stack);
+  }
 };
 
 async function query(account, credentials) {

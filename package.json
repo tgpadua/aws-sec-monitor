@@ -5,7 +5,7 @@
     "aws-sec-monitor": "bin/aws-sec-monitor.js"
   },
   "scripts": {
-    "build": "echo \"The build step is not required when using JavaScript!\" && exit 0",
+    "deps": "npm install && cd resources/lambda; npm install",
     "cdk": "cdk",
     "test": "jest"
   },

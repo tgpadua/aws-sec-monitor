@@ -1,6 +1,5 @@
-
 var util = require('./util');
-var report = require('./report');
+var iamReport = require('./iam-report');
 const LATEST_KEY = 'report-latest.tsv';
 const ROLE_NAME = process.env.ROLE_NAME;
 const BUCKET_NAME = process.env.BUCKET_NAME;
@@ -9,16 +8,18 @@ const TOPIC_ARN = process.env.TOPIC_ARN;
 
 exports.handler = async (event) => {
   try {
-    let latestReport = await util.getObject(BUCKET_NAME, LATEST_KEY);
-    let accounts = await util.getObject(BUCKET_NAME, ACCOUNTS_FILENAME);
+    let previousReport = await util.getObject(BUCKET_NAME, LATEST_KEY); // retrieve previousReport from S3
+    let accounts = await util.getObject(BUCKET_NAME, ACCOUNTS_FILENAME); // retrieve accounts list from S3
 
     let newReport = '';
-    for(let account of accounts.trim().split('\n')) {
-      try {
-        newReport += await report.generate(account, ROLE_NAME);
-      } catch (error) {
-        // protect routine to complete even if some account fails to switch role
-        console.log(error.stack);
+    let reportPromisses = new Array();
+    for(let account of accounts.trim().split('\n').sort()) {
+      reportPromisses.push(iamReport.generate(account, ROLE_NAME));
+    }
+    let reports = await Promise.all(reportPromisses);
+    for(let report of reports) {
+      if(report != undefined) { // ignore reports which raised exceptions
+        newReport += report;
       }
     }
 
@@ -27,7 +28,9 @@ exports.handler = async (event) => {
     await util.putObject(BUCKET_NAME, newReportKey, newReport);
     await util.copyObject(BUCKET_NAME, newReportKey, LATEST_KEY);
 
-    let changelog = util.diff(latestReport, newReport);
+    let r1 = util.convertReportToArrayAndFilter(previousReport);
+    let r2 = util.convertReportToArrayAndFilter(newReport);
+    let changelog = util.diff(r1, r2);
     if (changelog != '') {
       let changelogKey = `changelog/changelog-${suffix}.txt`;
       await util.putObject(BUCKET_NAME, changelogKey, changelog);
