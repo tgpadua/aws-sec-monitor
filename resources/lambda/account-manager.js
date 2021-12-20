@@ -19,10 +19,15 @@ exports.updateAccountsList = async function(bucketName, organizationsFile, accou
       try {
         let credentials = await util.switchRole(root, roleName);
         let organizations = new AWS.Organizations(credentials);
-        let accountList = await organizations.listAccounts().promise();
-        for(let account of accountList.Accounts) {
-          updatedAccountList += `${account.Id}\n`;
-        }
+        let nextToken;
+        do {
+          let listAccountParams = { NextToken: nextToken};
+          let accountList = await organizations.listAccounts(listAccountParams).promise();
+          nextToken = accountList
+          for(let account of accountList.Accounts) {
+            updatedAccountList += `${account.Id}\n`;
+          }
+        } while(nextToken != null);
       } catch(error) {
         console.error(error.stack);
       }
