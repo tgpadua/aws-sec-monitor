@@ -36,8 +36,8 @@ cdk deploy
 
 ## Post-Deploy
 You may choose between the following approaches to specify the accounts to be monitored:
-* **Accounts**: Allows you to specify the accounts individually. To do so, you must create a file named `accounts.txt`;
-* **Organizations**: Dynamically generates the accounts list file (`accounts.txt`) from a list of organizations root accounts. The accounts list file will be automatically updated before each report is executed. To do so, you must create a file named `organizations.txt`;
+* **Accounts**: Allows you to specify the accounts individually. To do so, you must create a file named `accounts.txt`
+* **Organizations**: Dynamically generates the accounts list file (`accounts.txt`) from a list of organizations root accounts. The accounts list file will be automatically updated before each report is executed. To do so, you must create a file named `organizations.txt`
 
 Both files must reside in the root of the S3 bucket and use line separation (`Unix LF = \n`); Sample file:
 ```
