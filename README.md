@@ -12,15 +12,14 @@ Using this software `I Agree` I'm solely responsible for any security issue caus
 
 ## Pre-Deploy
 Edit `cdk.context.json` and fulfill the following parameters:
-* bucketName (Optional) - Amazon S3 bucket name
 * cronExpression (Required) - [Cron expression](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-rule-schedule.html#eb-cron-expressions) used to schedule the monitoring
 * roleName (Required) - IAM RoleName assumed to generate the reports
 * email (Required) - Email to be notified with changelog report
+* bucketName (Optional) - Amazon S3 bucket name
 
 Sample file:
 ```
 {
-  "bucketName": "my-bucket-name",
   "cronExpression": "cron(0 * * * ? *)",
   "roleName": "AWSSecMonitorRole",
   "email": "sec-team@example.com"

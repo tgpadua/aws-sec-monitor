@@ -1,10 +1,13 @@
-var util = require('./util');
-var iamReport = require('./iam-report');
+const util = require('./util');
+const IAMReport = require('./iam-report');
+
 const LATEST_KEY = 'report-latest.tsv';
 const ROLE_NAME = process.env.ROLE_NAME;
 const BUCKET_NAME = process.env.BUCKET_NAME;
 const ACCOUNTS_FILENAME = process.env.ACCOUNTS_FILENAME;
 const TOPIC_ARN = process.env.TOPIC_ARN;
+
+var iamReport = new IAMReport();
 
 exports.handler = async (event) => {
   try {
@@ -24,13 +27,14 @@ exports.handler = async (event) => {
     }
 
     let suffix = Date.now();
-    let newReportKey = `archive/report-${suffix}.tsv`;
+    let today = new Date();
+    let date = `${today.getFullYear()}/${today.getMonth()+1}/${today.getDate()}`;
+
+    let newReportKey = `archive/${date}/report-${suffix}.tsv`;
     await util.putObject(BUCKET_NAME, newReportKey, newReport);
     await util.copyObject(BUCKET_NAME, newReportKey, LATEST_KEY);
 
-    let r1 = util.convertReportToArrayAndFilter(previousReport);
-    let r2 = util.convertReportToArrayAndFilter(newReport);
-    let changelog = util.diff(r1, r2);
+    let changelog = iamReport.changelog(previousReport, newReport);
     if (changelog != '') {
       let changelogKey = `changelog/changelog-${suffix}.txt`;
       await util.putObject(BUCKET_NAME, changelogKey, changelog);
