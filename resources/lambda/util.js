@@ -1,16 +1,10 @@
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
 const sns = new AWS.SNS();
+const sts = new AWS.STS();
+
 
 const { diffLinesRaw } = require('jest-diff');
-
-exports.publishNotification = async function(topicArn, subject, message) {
-  await sns.publish({
-    TopicArn: topicArn,
-    Subject: subject,
-    Message: message
-  }).promise();
-}
 
 exports.diff = function(content1, content2) {
   let result = '';
@@ -25,6 +19,39 @@ exports.diff = function(content1, content2) {
   }
 
   return result;
+}
+
+/**
+ * Obtains a temporary credentials to access different accounts
+ *
+ * @param {string} account Account Id number.
+ * @param {string} roleName IAM Role name used during switch role.
+ * @return {Object} IAM credential element
+ */
+exports.switchRole = async function(account, roleName) {
+  const sessionName = `AWS-SEC-MONITOR-${account}`;
+
+  let assumeRoleParams = {
+    RoleArn: `arn:aws:iam::${account}:role/${roleName}`,
+    RoleSessionName: sessionName
+  };
+  let assumedRole = await sts.assumeRole(assumeRoleParams).promise();
+  let assumedRoleCredentials = assumedRole.Credentials;
+  let credentials = {
+    accessKeyId: assumedRoleCredentials.AccessKeyId,
+    secretAccessKey: assumedRoleCredentials.SecretAccessKey,
+    sessionToken: assumedRoleCredentials.SessionToken
+  };
+
+  return credentials;
+}
+
+exports.publishNotification = async function(topicArn, subject, message) {
+  await sns.publish({
+    TopicArn: topicArn,
+    Subject: subject,
+    Message: message
+  }).promise();
 }
 
 exports.copyObject = async function(bucket, srcKey, dstKey) {

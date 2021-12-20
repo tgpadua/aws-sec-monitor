@@ -35,7 +35,11 @@ cdk deploy
 ```
 
 ## Post-Deploy
-* Create a file named `accounts.txt` in the root of S3 bucket provisioned, containing the accounts id to be monitored separated by line (`Unix LF = \n`); Sample file:
+You may choose between the following approaches to specify the accounts to be monitored:
+* *Accounts*: Allows you to specify the accounts individually. To do so, you must create a file named `accounts.txt`;
+* *Organizations*: Dynamically generates the accounts list file (`accounts.txt`) from a list of organizations root accounts. The accounts list file will be automatically updated before each report is executed. To do so, you must create a file named `organizations.txt`;
+
+Both files must reside in the root of the S3 bucket and use line separation (`Unix LF = \n`); Sample file:
 ```
 111111111111
 222222222222

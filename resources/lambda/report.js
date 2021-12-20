@@ -1,5 +1,5 @@
 var AWS = require('aws-sdk');
-var sts = new AWS.STS();
+const util = require('./util');
 
 class Report {
   /**
@@ -11,39 +11,14 @@ class Report {
    */
   async generate(account, roleName) {
     try {
-      let credentials = await this.switchRole(account, roleName);
+      let credentials = await util.switchRole(account, roleName);
       let report = await this.query(account, credentials);
       let textReport = this.toText(report);
 
       return textReport;
     } catch (error) {
-      console.log(error.stack);
+      console.error(error.stack);
     }
-  }
-
-  /**
-   * Obtains a temporary credentials to access different accounts
-   *
-   * @param {string} account Account Id number.
-   * @param {string} roleName IAM Role name used during switch role.
-   * @return {Object} IAM credential element
-   */
-  async switchRole(account, roleName) {
-    const sessionName = `AWS-SEC-MONITOR-${account}`;
-
-    let assumeRoleParams = {
-      RoleArn: `arn:aws:iam::${account}:role/${roleName}`,
-      RoleSessionName: sessionName
-    };
-    let assumedRole = await sts.assumeRole(assumeRoleParams).promise();
-    let assumedRoleCredentials = assumedRole.Credentials;
-    let credentials = {
-      accessKeyId: assumedRoleCredentials.AccessKeyId,
-      secretAccessKey: assumedRoleCredentials.SecretAccessKey,
-      sessionToken: assumedRoleCredentials.SessionToken
-    };
-
-    return credentials;
   }
 
   /**
