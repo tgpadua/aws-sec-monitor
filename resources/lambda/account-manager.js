@@ -25,7 +25,9 @@ exports.updateAccountsList = async function(bucketName, organizationsFile, accou
           let accountList = await organizations.listAccounts(listAccountParams).promise();
           nextToken = accountList.NextToken;
           for(let account of accountList.Accounts) {
-            updatedAccountList += `${account.Id}\n`;
+            if(account.Status == 'ACTIVE') {
+              updatedAccountList += `${account.Id}\n`;
+            }
           }
         } while(nextToken != null);
       } catch(error) {
